@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+log/*
+tmp/*
+!tmp/pids
+storage/*
+public/assets
+public/packs
+node_modules
+db/*.sqlite3
+db/*.sqlite3-journal
+.DS_Store
