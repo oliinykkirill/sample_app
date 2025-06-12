@@ -2,7 +2,8 @@ require "test_helper"
 
 class UsersLoginTest < ActionDispatch::IntegrationTest
   def setup
-    @user = users(:michael)
+    @user       = users(:michael)
+    @other_user = users(:archer)
   end
 
   test 'login with valid email/invalid password' do
@@ -60,5 +61,20 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     log_in_as(@user, remember_me: '0')
     # assert_nil cookies['remember_token']
     assert cookies['remember_token'].blank?
+  end
+
+  test 'should redirect destroy when not logged in' do
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to login_url
+  end
+
+  test 'should redirict destroy when logged in as a non-admin' do
+    log_in_as(@other_user)
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to root_url
   end
 end
