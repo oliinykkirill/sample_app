@@ -1,14 +1,7 @@
 class PasswordResetsController < ApplicationController
   before_action :get_user,         only: [:edit, :update]
   before_action :valid_user,       only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update] #Case (1)
-
-  # Cases
-  # (1)  An expired password reset
-  # (2)  A failed update due to an invalid password
-  # (3)  A failed update (which initially looks “successful”)
-  #   due to an empty password and confirmation
-  # (4)  A successful update
+  before_action :check_expiration, only: [:edit, :update] # Case (1)
 
   def new
   end
