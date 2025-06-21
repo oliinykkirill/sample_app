@@ -51,4 +51,13 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     get root_path
     assert_match "1 micropost", response.body
   end
+
+  test "following and followers stats on home page" do
+    log_in_as(@user)
+    get root_path
+    assert_select "strong#following", text: @user.following.count.to_s
+    assert_select "strong#followers", text: @user.followers.count.to_s
+    assert_select "a[href=?]", following_user_path(@user)
+    assert_select "a[href=?]", followers_user_path(@user)
+  end
 end
